@@ -4,8 +4,10 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class FacultyService {
@@ -33,5 +35,11 @@ public class FacultyService {
     public Faculty deleteFaculty(long id) {
         Faculty faculty = facultyMap.remove(id);
         return faculty;
+    }
+
+    public Collection<Faculty> findByColor(String color) {
+        return facultyMap.values().stream().
+                filter(it ->it.getColor() == color).
+                collect(Collectors.toList());
     }
 }

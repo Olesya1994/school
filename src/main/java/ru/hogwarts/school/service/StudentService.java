@@ -4,8 +4,11 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class StudentService {
     private final Map<Long, Student> studentMap = new HashMap<>();
@@ -22,12 +25,24 @@ public class StudentService {
         if (!studentMap.containsKey(id)){
             return null;
         }
-        studentMap.put(student.getId(), student);
+        studentMap.put( id, student);
         return student;
     }
     public Student deleteStudent(long id){
         Student student = studentMap.remove(id);
         return student;
     }
+    public Collection<Student> findByAge(int age) {
+        return studentMap.values().stream().
+                filter(it ->it.getAge() == age).
+                collect(Collectors.toList());
+    }
 
+    @Override
+    public String toString() {
+        return "StudentService{" +
+                "studentMap=" + studentMap +
+                ", count=" + count +
+                '}';
+    }
 }
