@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
-import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -14,7 +13,7 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/faculty")
 public class FacultyController {
-    private FacultyService facultyService = new FacultyService();
+    private final FacultyService facultyService;
 
     public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
@@ -37,7 +36,7 @@ public class FacultyController {
 
     @PutMapping()
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty, @PathVariable long id) {
-        Faculty faculty1 = facultyService.editFaculty(id, faculty);
+        Faculty faculty1 = facultyService.editFaculty(faculty);
         if (faculty1 == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

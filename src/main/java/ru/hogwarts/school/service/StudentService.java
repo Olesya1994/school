@@ -21,16 +21,15 @@ public class StudentService {
     public Student findStudent(long id){
        return studentMap.get(id);
     }
-    public Student editStudent(long id,Student student){
-        if (!studentMap.containsKey(id)){
+    public Student editStudent(Student student){
+        if (!studentMap.containsKey(student.getId())){
             return null;
         }
-        studentMap.put( id, student);
+        studentMap.put( student.getId(), student);
         return student;
     }
     public Student deleteStudent(long id){
-        Student student = studentMap.remove(id);
-        return student;
+        return studentMap.remove(id);
     }
     public Collection<Student> findByAge(int age) {
         return studentMap.values().stream().

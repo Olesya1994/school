@@ -13,8 +13,7 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    private StudentService studentService = new StudentService();
-
+    private final StudentService studentService;
     public StudentController(StudentService service) {
         this.studentService = service;
     }
@@ -36,8 +35,8 @@ public class StudentController {
     }
 
     @PutMapping()
-    public ResponseEntity<Student> editFaculty(@RequestBody Student student, @PathVariable long id) {
-        Student student1 = studentService.editStudent(id, student);
+    public ResponseEntity<Student> editFaculty(@RequestBody Student student) {
+        Student student1 = studentService.editStudent(student);
         if (student1 == null) {
             //return ResponseEntity.ok(student1);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
