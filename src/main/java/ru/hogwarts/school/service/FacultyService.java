@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
@@ -41,7 +42,10 @@ public class FacultyService {
     }
 
     public Collection<Faculty> findByColor(String color) {
-        return (Collection<Faculty>) facultyRepository.findAll().stream().
-                filter(it -> it.getColor().equals(color));
+        return facultyRepository.findByColor(color);
+    }
+
+    public Collection<Student> findStudents(long id) {
+        return findFaculty(id).getStudents();
     }
 }

@@ -1,9 +1,7 @@
 package ru.hogwarts.school.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 @Entity(name = "faculty")
 public class Faculty {
@@ -12,6 +10,29 @@ public class Faculty {
     private long id;
     private String name;
     private String color;
+    @OneToMany(mappedBy = "faculty")
+    private Collection<Student> students;
+
+    public Collection<Student> getStudents() {
+        return students;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Faculty faculty = (Faculty) o;
+        return id == faculty.id && Objects.equals(name, faculty.name) && Objects.equals(color, faculty.color) && Objects.equals(students, faculty.students);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, color, students);
+    }
+
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
+    }
 
 //    public Faculty(long id, String name, String color) {
 //        this.id = id;
@@ -41,19 +62,6 @@ public class Faculty {
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Faculty faculty = (Faculty) o;
-        return id == faculty.id && Objects.equals(name, faculty.name) && Objects.equals(color, faculty.color);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, color);
     }
 
     @Override
