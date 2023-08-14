@@ -62,11 +62,11 @@ public class FacultyController {
     }
 
     @GetMapping("/{faculty_id}/allStudens")
-    public ResponseEntity<Collection<Student>> findStudents(@PathVariable long faculty_id) {
-        if (facultyService.findFaculty(faculty_id) == null) {
+    public ResponseEntity<Collection<Student>> findStudents(@PathVariable long facultyId) {
+        if (facultyService.findFaculty(facultyId) == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(facultyService.findStudents(faculty_id));
+        return ResponseEntity.ok(facultyService.findStudents(facultyId));
     }
 
 

@@ -60,12 +60,12 @@ public class StudentController {
         }
         return ResponseEntity.ok(Collections.emptyList());
     }
-    @GetMapping("{student_id}/getFaculty")
-    public ResponseEntity<Faculty> getFaculty(@PathVariable Long student_id) {
-        if (studentService.findStudent(student_id) == (null)) {
+    @GetMapping("{studentId}/getFaculty")
+    public ResponseEntity<Faculty> getFaculty(@PathVariable Long studentId) {
+        if (studentService.findStudent(studentId) == (null)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(studentService.getFaculty(student_id));
+        return ResponseEntity.ok(studentService.getFaculty(studentId));
     }
 
 }

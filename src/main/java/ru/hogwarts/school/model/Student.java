@@ -10,7 +10,7 @@ public class Student {
     private String name;
     private int age;
     @ManyToOne
-    @JoinColumn(name = "faculty_id")
+    @JoinColumn(name = "facultyId")
     private Faculty faculty;
 
     @Override
