@@ -21,7 +21,6 @@ public class Avatar {
     @JoinColumn(name = "student_Id")
     private Student student;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

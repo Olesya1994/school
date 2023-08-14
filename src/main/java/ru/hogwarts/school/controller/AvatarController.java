@@ -34,22 +34,22 @@ public class AvatarController {
     }
 
 
-
     @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> aploadAvatar(@PathVariable Long id, @RequestParam MultipartFile avatar) throws IOException {
-       avatarService.upload(id,avatar);
-       return ResponseEntity.ok().build();
+        avatarService.upload(id, avatar);
+        return ResponseEntity.ok().build();
     }
+
     @GetMapping("/{id}/avatar")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
 
         Avatar avatar = avatarService.findAvatar(id);
         Path path = Path.of(avatar.getFilePath());
         try (InputStream is = Files.newInputStream(path);
-             OutputStream os = response.getOutputStream()){
+             OutputStream os = response.getOutputStream()) {
             response.setStatus(200);
             response.setContentType(avatar.getMediaType());
-            response.setContentLength((int) avatar.getFileSize() );
+            response.setContentLength((int) avatar.getFileSize());
             is.transferTo(os);
 
         }
