@@ -1,4 +1,5 @@
 package ru.hogwarts.school.model;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ public class Student {
     private String name;
     private int age;
     @ManyToOne
-    @JoinColumn(name = "faculty_id")
+    @JoinColumn(name = "facultyId")
     private Faculty faculty;
 
     @Override
@@ -33,11 +34,6 @@ public class Student {
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
     }
-//    public Student(Long id, String name, int age) {
-//        this.id = id;
-//        this.name = name;
-//        this.age = age;
-//    }
 
     public Long getId() {
         return id;
