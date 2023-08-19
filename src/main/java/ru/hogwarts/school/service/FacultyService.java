@@ -44,4 +44,5 @@ public class FacultyService {
     public Collection<Student> findStudents(long id) {
         return findFaculty(id).getStudents();
     }
+
 }

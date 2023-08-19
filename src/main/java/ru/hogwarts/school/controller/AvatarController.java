@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("/avatar")
@@ -54,5 +55,9 @@ public class AvatarController {
 
         }
 
+    }
+    @GetMapping(value = "/page/{pageSize}/{pageNum}")
+    public List<Avatar> getPage(@PathVariable int pageNumber, @PathVariable int pageSize) {
+        return getPage( pageNumber, pageSize);
     }
 }
