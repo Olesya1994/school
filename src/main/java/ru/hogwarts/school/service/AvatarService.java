@@ -16,7 +16,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -27,7 +26,7 @@ public class AvatarService {
     private AvatarRepository avatarRepository;
     @Autowired
     private StudentRepository studentRepository;
-    @Value("${path.to.avatar.folder}")
+    @Value("${avatars.dir}")
     String avatarsDir;
 
 
@@ -73,11 +72,14 @@ public class AvatarService {
         }
     }
 
-    public Avatar findAvatar(Long studentId) {
-        return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
+    public Avatar findAvatar(Long id) {
+        return avatarRepository.findByStudentId(id).orElse(new Avatar());
     }
 
     public List<Avatar> getPage(int pageNumber, int pageSize){
         return avatarRepository.findAll(PageRequest.of(pageNumber-1,pageSize)).getContent();
+    }
+    private String getExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "avatar")
 public class Avatar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +18,28 @@ public class Avatar {
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] data;
     @OneToOne
-    @JoinColumn(name = "student_Id")
     private Student student;
+    public Avatar() {
+    }
+
+    public Avatar(Long id, String filePath, long fileSize, String mediaType, Student student) {
+        this.id = id;
+        this.filePath = filePath;
+        this.fileSize = fileSize;
+        this.mediaType = mediaType;
+        this.student = student;
+    }
+
+    @Override
+    public String toString() {
+        return "Avatar{" +
+                "id=" + id +
+                ", filePath='" + filePath + '\'' +
+                ", fileSize=" + fileSize +
+                ", mediaType='" + mediaType + '\'' +
+                ", student=" + student +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
