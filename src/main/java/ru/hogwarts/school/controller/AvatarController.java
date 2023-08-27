@@ -56,8 +56,8 @@ public class AvatarController {
         }
 
     }
-//    @GetMapping(value = "/page/{pageSize}/{pageNum}")
-//    public List<Avatar> getPage(@PathVariable int pageNumber, @PathVariable int pageSize) {
-//        return getPage( pageNumber, pageSize);
-//    }
+    @GetMapping(value = "/page/{pageSize}/{pageNum}")
+    public List<Avatar> getPage(@PathVariable int pageNumber, @PathVariable int pageSize) {
+        return avatarService.getPage( pageNumber, pageSize);
+    }
 }
