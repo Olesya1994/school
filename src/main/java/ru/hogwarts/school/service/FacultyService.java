@@ -18,10 +18,6 @@ public class FacultyService {
     @Autowired
     private FacultyRepository facultyRepository;
 
-//    public FacultyService(FacultyRepository facultyRepository) {
-//        this.facultyRepository = facultyRepository;
-//    }
-
     public Faculty addFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
@@ -48,4 +44,5 @@ public class FacultyService {
     public Collection<Student> findStudents(long id) {
         return findFaculty(id).getStudents();
     }
+
 }
