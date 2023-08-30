@@ -5,6 +5,7 @@ CREATE TABLE Students (
     name TEXT NOT NULL UNIQUE,
     avatar BOOLEAN
  )
+
 CREATE TABLE Faculties (
  Id SERIAL PRIMARY KEY,
  name TEXT,
