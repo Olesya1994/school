@@ -1,4 +1,5 @@
 -- liquibase formatted sql
+
 -- changeset Olesya:1
 CREATE INDEX student_name_idx on student (name)
 -- changeset Olesya:2
