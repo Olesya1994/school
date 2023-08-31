@@ -9,6 +9,7 @@ import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -38,7 +39,6 @@ public class StudentController {
     public ResponseEntity<Student> editFaculty(@RequestBody Student student) {
         Student student1 = studentService.editStudent(student);
         if (student1 == null) {
-            //return ResponseEntity.ok(student1);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(student1);
@@ -55,17 +55,30 @@ public class StudentController {
 
     @GetMapping("/byAgeBetween")
     public ResponseEntity<Collection<Student>> findFaculties(@RequestParam int min, int max) {
-        if (min>max) {
+        if (min > max) {
             return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
         }
         return ResponseEntity.ok(Collections.emptyList());
     }
-    @GetMapping("{student_id}/getFaculty")
-    public ResponseEntity<Faculty> getFaculty(@PathVariable Long student_id) {
-        if (studentService.findStudent(student_id) == (null)) {
+
+    @GetMapping("{studentId}/getFaculty")
+    public ResponseEntity<Faculty> getFaculty(@PathVariable Long studentId) {
+        if (studentService.findStudent(studentId) == (null)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(studentService.getFaculty(student_id));
+        return ResponseEntity.ok(studentService.getFaculty(studentId));
+    }
+    @GetMapping("/count")
+    public int getStudentCount(){
+        return studentService.getStudentCount();
+    }
+    @GetMapping("/averageAge")
+    public int getAverageAge(){
+        return studentService.getAverageAge();
+    }
+    @GetMapping("/last")
+     List<Student> getLastStudent(){
+        return studentService.getLastStudent();
     }
 
 }
