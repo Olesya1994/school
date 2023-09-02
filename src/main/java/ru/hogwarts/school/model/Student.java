@@ -1,10 +1,14 @@
 package ru.hogwarts.school.model;
 
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @Entity(name = "student")
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

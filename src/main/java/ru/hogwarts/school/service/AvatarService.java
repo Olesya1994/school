@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -29,16 +31,19 @@ public class AvatarService {
     @Value("${avatars.dir}")
     String avatarsDir;
 
+    private final static Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
     public void upload(Long studentId, MultipartFile file) throws IOException {
+      //  logger.info("method upload Avatar was invoked");
         var student = studentRepository.findById(studentId);
         if (student.isEmpty()) {
+            logger.info("no student was found");
             throw new IllegalStateException();
         }
         Path filePath = Path.of(avatarsDir, student + "." + file.getOriginalFilename());
         Files.createDirectories(filePath.getParent());
+        logger.info("Creating directory"+avatarsDir);
         Files.deleteIfExists(filePath);
-
         try (
                 InputStream is = file.getInputStream();
                 OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
@@ -57,6 +62,7 @@ public class AvatarService {
     }
 
     public byte[] genereteDataForDB(Path filePath) throws IOException {
+        logger.info("method genereteDataForDB was invoked");
         try (
                 InputStream is = Files.newInputStream(filePath);
                 BufferedInputStream bis = new BufferedInputStream(is, 1024);
@@ -70,16 +76,22 @@ public class AvatarService {
             ImageIO.write(preview, filePath.getFileName().toString(), baos);
             return baos.toByteArray();
         }
+
     }
 
     public Avatar findAvatar(Long id) {
+        logger.info("method findAvatar was invoked");
         return avatarRepository.findByStudentId(id).orElse(new Avatar());
     }
 
     public List<Avatar> getPage(int pageNumber, int pageSize){
+        logger.info("method getPage was invoked");
         return avatarRepository.findAll(PageRequest.of(pageNumber-1,pageSize)).getContent();
     }
     private String getExtension(String fileName) {
+        logger.info("method getExtension was invoked");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
+
+
 }

@@ -25,7 +25,7 @@ public class AvatarController {
         this.avatarService = avatarService;
     }
 
-    @GetMapping("/{id}/avatar/preview")
+    @GetMapping("/{id}/preview")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
         Avatar avatar = avatarService.findAvatar(id);
         HttpHeaders headers = new HttpHeaders();
@@ -35,13 +35,13 @@ public class AvatarController {
     }
 
 
-    @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> aploadAvatar(@PathVariable Long id, @RequestParam MultipartFile avatar) throws IOException {
         avatarService.upload(id, avatar);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/avatar")
+    @GetMapping("/{id}")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
 
         Avatar avatar = avatarService.findAvatar(id);
