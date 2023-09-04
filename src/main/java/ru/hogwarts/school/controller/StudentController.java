@@ -31,12 +31,12 @@ public class StudentController {
     }
 
     @PostMapping()
-    public Student createFaculty(@RequestBody Student student) {
+    public Student createStudent(@RequestBody Student student) {
         return studentService.addStudent(student);
     }
 
     @PutMapping()
-    public ResponseEntity<Student> editFaculty(@RequestBody Student student) {
+    public ResponseEntity<Student> editStudent(@RequestBody Student student) {
         Student student1 = studentService.editStudent(student);
         if (student1 == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -54,7 +54,7 @@ public class StudentController {
     }
 
     @GetMapping("/byAgeBetween")
-    public ResponseEntity<Collection<Student>> findFaculties(@RequestParam int min, int max) {
+    public ResponseEntity<Collection<Student>> findStudentByAge(@RequestParam int min, int max) {
         if (min > max) {
             return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
         }
@@ -77,7 +77,7 @@ public class StudentController {
         return studentService.getAverageAge();
     }
     @GetMapping("/last")
-     List<Student> getLastStudent(){
+    public List<Student> getLastStudent(){
         return studentService.getLastStudent();
     }
 
