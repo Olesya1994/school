@@ -1,6 +1,8 @@
 package ru.hogwarts.school.controllerTest;
+
 import org.assertj.core.api.Assertions;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +41,8 @@ public class StudentWebMvcTest {
     @InjectMocks
     private StudentController studentController;
 
-    @Test
-    public void contextLoads() throws Exception {
-        Assertions.assertThat(studentController).isNotNull();
-    }
-
-    @Test
-    public void createStudentTest() throws Exception {
+    @BeforeEach
+    void setUp() {
         JSONObject studentObject = new JSONObject();
         studentObject.put("name", "Jiny");
         studentObject.put("id", 33);
@@ -65,7 +62,6 @@ public class StudentWebMvcTest {
         List<Student> l = List.of(testStudent);
         Collection<Student> c = Collections.unmodifiableList(l);
 
-
         when(studentController.createStudent(any(Student.class))).thenReturn(testStudent);
         when(studentController.editStudent(any(Student.class))).thenReturn(ResponseEntity.ok(testStudent));
         when(studentController.deleteStudent(any(Long.class))).thenReturn(ResponseEntity.ok().build());
@@ -74,6 +70,43 @@ public class StudentWebMvcTest {
         when(studentController.getStudentCount()).thenReturn(1);
         when(studentController.getAverageAge()).thenReturn(19);
         when(studentController.getLastStudent()).thenReturn(l);
+    }
+
+    @Test
+    public void contextLoads() throws Exception {
+        Assertions.assertThat(studentController).isNotNull();
+    }
+
+    @Test
+    public void createStudentTest() throws Exception {
+//        JSONObject studentObject = new JSONObject();
+//        studentObject.put("name", "Jiny");
+//        studentObject.put("id", 33);
+//        studentObject.put("age", 19);
+//
+//        Student testStudent = new Student();
+//        testStudent.setId(33l);
+//        testStudent.setName("Jiny");
+//        testStudent.setAge(19);
+//
+//        Faculty testFaculty = new Faculty();
+//        testFaculty.setId(66);
+//        testFaculty.setName("MTT");
+//        testFaculty.setColor("Red");
+//        testStudent.setFaculty(testFaculty);
+//
+//        List<Student> l = List.of(testStudent);
+//        Collection<Student> c = Collections.unmodifiableList(l);
+//
+//
+//        when(studentController.createStudent(any(Student.class))).thenReturn(testStudent);
+//        when(studentController.editStudent(any(Student.class))).thenReturn(ResponseEntity.ok(testStudent));
+//        when(studentController.deleteStudent(any(Long.class))).thenReturn(ResponseEntity.ok().build());
+//        when(studentController.findStudentByAge(any(int.class), any(int.class))).thenReturn(ResponseEntity.ok(c));
+//        when(studentController.getFaculty(any(Long.class))).thenReturn(ResponseEntity.ok(testFaculty));
+//        when(studentController.getStudentCount()).thenReturn(1);
+//        when(studentController.getAverageAge()).thenReturn(19);
+//        when(studentController.getLastStudent()).thenReturn(l);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/student")
@@ -86,29 +119,88 @@ public class StudentWebMvcTest {
                 .andExpect(jsonPath(("$.age")).value(19));
     }
 
-//    @Test
-//    public Void editStudent() {
-//    }
-//
-//    @Test
-//    public Void findFaculties() {
-//    }
-//
-//    @Test
-//    public Void getFaculty() {
-//    }
-//
-//    @Test
-//    public Void getStudentCount() {
-//    }
-//
-//    @Test
-//    public Void getAverageAge() {
-//    }
-//
-//    @Test
-//    public Void getLastStudent() {
-//    }
+    @Test
+    public void editStudentTest() {
+    mockMvc.perform(MockMvcRequestBuilders
+            .put("/student")
+            .content(studentObject.toString())
+            .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath(("$.id")).value(33l))
+            .andExpect(jsonPath(("$.name")).value("Jiny"))
+            .andExpect(jsonPath(("$.age")).value(19));
+    }
+    @Test
+    public void findStudentByAgeTest() {
+        JSONObject studentObject = new JSONObject();
+        studentObject.put("name", "Jiny");
+        studentObject.put("id", 33);
+        studentObject.put("age", 19);
 
+        Student testStudent = new Student();
+        testStudent.setId(33l);
+        testStudent.setName("Jiny");
+        testStudent.setAge(19);
+
+        Faculty testFaculty = new Faculty();
+        testFaculty.setId(66);
+        testFaculty.setName("MTT");
+        testFaculty.setColor("Red");
+        testStudent.setFaculty(testFaculty);
+
+        List<Student> l = List.of(testStudent);
+        Collection<Student> c = Collections.unmodifiableList(l);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/student/byAgeBetween")
+                .content(studentObject.toString())
+            .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(c);
+    }
+    @Test
+    public void  getFaculty() {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/{studentId}/getFaculty")
+                        .content(studentObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(("$.id")).value(66l))
+                .andExpect(jsonPath(("$.color")).value("Red"))
+                .andExpect(jsonPath(("$.name")).value("MTT"));
+    }
+    @Test
+    public void getStudentCount() {
+    mockMvc.perform(MockMvcRequestBuilders
+            .get("/student/count")
+            .content(studentObject.toString())
+            .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(1)
+    ;
+
+    }
+    @Test
+    public void getAverageAge() {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/averageAge")
+                        .content(studentObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(19);
+    }
+    @Test
+    public void getLastStudent() {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/last")
+                        .content(studentObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(l);
+    }
 
 }

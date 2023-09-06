@@ -9,11 +9,10 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
@@ -58,4 +57,16 @@ public class FacultyService {
         return findFaculty(id).getStudents();
     }
 
+    public String getLongestFacultyName() {
+        return facultyRepository.findAll().
+                stream().
+                map(Faculty::getName).
+                max(Comparator.naturalOrder()).orElse(null);
+
+
+    }
+
+    public int test() {
+        return IntStream.rangeClosed(1, 1000000).parallel().sum();
+    }
 }

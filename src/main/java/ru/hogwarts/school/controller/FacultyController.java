@@ -67,6 +67,15 @@ public class FacultyController {
         }
         return ResponseEntity.ok(facultyService.findStudents(facultyId));
     }
+    @GetMapping("/longestName")
+   public String getLongestFacultyName(){
+        return facultyService.getLongestFacultyName();
+    }
+    @GetMapping("/test")
+    public int test(){
+        return facultyService.test();
+    }
+
 
 
 }
