@@ -1,5 +1,4 @@
 package ru.hogwarts.school.service;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
-
 import ru.hogwarts.school.repository.AvatarRepository;
 import ru.hogwarts.school.repository.StudentRepository;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,7 +16,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
@@ -76,9 +72,7 @@ public class AvatarService {
             ImageIO.write(preview, filePath.getFileName().toString(), baos);
             return baos.toByteArray();
         }
-
     }
-
     public Avatar findAvatar(Long id) {
         logger.info("method findAvatar was invoked");
         return avatarRepository.findByStudentId(id).orElse(new Avatar());
@@ -88,10 +82,12 @@ public class AvatarService {
         logger.info("method getPage was invoked");
         return avatarRepository.findAll(PageRequest.of(pageNumber-1,pageSize)).getContent();
     }
+
     private String getExtension(String fileName) {
         logger.info("method getExtension was invoked");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
+    private void printStudentNames(){
 
-
+    }
 }

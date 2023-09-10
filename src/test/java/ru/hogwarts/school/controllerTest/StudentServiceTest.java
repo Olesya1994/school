@@ -17,8 +17,7 @@ public class StudentServiceTest {
     private TestRestTemplate restTemplate;
     @Test
     public void testGetStudentInfo(){
-        var response = this.restTemplate.getForEntity("http://localhost" + port+ "/student",StudentController.class);
-
+        var response = this.restTemplate.getForEntity("http://localhost:" + port+ "/student",StudentController.class);
     }
 
 }

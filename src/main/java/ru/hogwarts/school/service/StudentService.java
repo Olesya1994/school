@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ru.hogwarts.school.model.Avatar;
@@ -16,7 +17,6 @@ import ru.hogwarts.school.repository.StudentRepository;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @Service
 public class StudentService {
@@ -61,6 +61,7 @@ public class StudentService {
         logger.info("method getFaculty was invoked");
         return findStudent(studentId).getFaculty();
     }
+
     public Avatar findAvatar(long studentId) {
         logger.info("method findAvatar was invoked");
         return avatarRepository.findByStudentId(studentId).orElseThrow();
@@ -71,26 +72,30 @@ public class StudentService {
         logger.info("method getExtension was invoked");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
-    public int getStudentCount(){
+
+    public int getStudentCount() {
         logger.info("method getStudentCount was invoked");
         return studentRepository.getStudentCount();
-    };
-    public int getAverageAge(){
+    }
+
+
+    public int getAverageAge() {
         logger.info("method getAverageAge was invoked");
 //        return studentRepository.getAverageAge();
         return (int) studentRepository.findAll().
                 stream().
                 mapToInt(Student::getAge).
                 average().orElse(0);
+    }
 
-    };
 
-    public List<Student> getLastStudent(){
+    public List<Student> getLastStudent() {
 
         logger.info("method getLastStudent was invoked");
         return studentRepository.getLastStudent();
-    };
-    public List<String> getStudentWithFirstA(){
+    }
+
+    public List<String> getStudentWithFirstA() {
         return studentRepository.findAll().
                 stream().
                 map(Student::getName).
@@ -100,4 +105,45 @@ public class StudentService {
                 collect(Collectors.toList());
     }
 
+    public void printAllStudents() {
+        List<String> studentNames = studentRepository.findAll().stream().
+                map(Student::getName).
+                sorted().
+                toList();
+        System.out.println(studentNames);
+        System.out.println(studentNames.get(0));
+        System.out.println(studentNames.get(1));
+        Thread thread1 = new Thread(() -> {
+            System.out.println(studentNames.get(2));
+            System.out.println(studentNames.get(3));
+        });
+        Thread thread2 = new Thread(() -> {
+            System.out.println(studentNames.get(4));
+            System.out.println(studentNames.get(5));
+        });
+        thread1.start();
+        thread2.start();
+    }
+    public void print6Student() {
+        List<String> studentNames = studentRepository.findAll().stream().
+                map(Student::getName).
+                sorted().
+                toList();
+        System.out.println(studentNames);
+        print(studentNames.get(0));
+        print(studentNames.get(1));
+        Thread thread1 = new Thread(() -> {
+            print(studentNames.get(2));
+            print(studentNames.get(3));
+        });
+        Thread thread2 = new Thread(() -> {
+            print(studentNames.get(4));
+            print(studentNames.get(5));
+        });
+        thread1.start();
+        thread2.start();
+    }
+    public synchronized void print(String name){
+        System.out.println(name);
+    }
 }

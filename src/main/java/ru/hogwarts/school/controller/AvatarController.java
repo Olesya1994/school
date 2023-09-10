@@ -20,11 +20,9 @@ import java.util.List;
 @RequestMapping("/avatar")
 public class AvatarController {
     private final AvatarService avatarService;
-
     public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
     }
-
     @GetMapping("/{id}/preview")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
         Avatar avatar = avatarService.findAvatar(id);
@@ -33,14 +31,11 @@ public class AvatarController {
         headers.setContentLength(avatar.getData().length);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getData());
     }
-
-
     @PostMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> aploadAvatar(@PathVariable Long id, @RequestParam MultipartFile avatar) throws IOException {
         avatarService.upload(id, avatar);
         return ResponseEntity.ok().build();
     }
-
     @GetMapping("/{id}")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
 
@@ -54,7 +49,6 @@ public class AvatarController {
             is.transferTo(os);
 
         }
-
     }
     @GetMapping(value = "/page/{pageSize}/{pageNum}")
     public List<Avatar> getPage(@PathVariable int pageNumber, @PathVariable int pageSize) {

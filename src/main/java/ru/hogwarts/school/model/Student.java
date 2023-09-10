@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-@Entity(name = "student")
+@Entity(name = "students")
 public class Student {
 
     @Id
@@ -15,8 +15,10 @@ public class Student {
     private String name;
     private int age;
     @ManyToOne
-    @JoinColumn(name = "facultyId")
+    @JoinColumn(name = "faculty_id")
     private Faculty faculty;
+    @OneToOne
+    private Avatar avatar;
 
 
     @Override
