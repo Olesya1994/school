@@ -1,23 +1,17 @@
 package ru.hogwarts.school.service;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
 import ru.hogwarts.school.repository.StudentRepository;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Service
 public class StudentService {
     Logger logger = LoggerFactory.getLogger(StudentService.class);

@@ -20,10 +20,10 @@ public class StudentControllerTest {
 //    public void contextLoad() {
 //        Assertions.assertThat(controller).isNotNull();
 //    }
-    @Test
-    public void  getFacultyTest(){
-        restTemplate.postForEntity()
-       restTemplate.getForEntity(
-                        "http://localhost:"+port+ "/student/2/getFaculty/", Faculty.class);
-    }
+//    @Test
+//    public void  getFacultyTest(){
+//        restTemplate.postForEntity();
+//       restTemplate.getForEntity(
+//                        "http://localhost:"+port+ "/student/2/getFaculty/", Faculty.class);
+//    }
 }

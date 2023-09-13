@@ -63,9 +63,9 @@ public class StudentController {
 
     @GetMapping("{studentId}/getFaculty")
     public ResponseEntity<Faculty> getFaculty(@PathVariable Long studentId) {
-        if (studentService.findStudent(studentId) == (null)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+//        if (studentService.findStudent(studentId) == (null)) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        }
         return ResponseEntity.ok(studentService.getFaculty(studentId));
     }
 
