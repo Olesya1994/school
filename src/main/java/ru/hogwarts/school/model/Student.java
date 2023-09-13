@@ -1,9 +1,14 @@
 package ru.hogwarts.school.model;
+
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.logging.Logger;
 
-@Entity(name = "student")
+@Entity(name = "students")
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -12,6 +17,9 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
+    @OneToOne
+    private Avatar avatar;
+
 
     @Override
     public boolean equals(Object o) {
@@ -33,11 +41,6 @@ public class Student {
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
     }
-//    public Student(Long id, String name, int age) {
-//        this.id = id;
-//        this.name = name;
-//        this.age = age;
-//    }
 
     public Long getId() {
         return id;
