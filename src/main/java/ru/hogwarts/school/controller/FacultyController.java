@@ -1,7 +1,6 @@
 package ru.hogwarts.school.controller;
 
 import org.springframework.http.HttpStatus;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
@@ -21,7 +20,7 @@ public class FacultyController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Faculty> getStudentInfo(@PathVariable long id) {
+    public ResponseEntity<Faculty> getFacultyInfo(@PathVariable long id) {
         Faculty faculty = facultyService.findFaculty(id);
         if (faculty == null) {
             return ResponseEntity.notFound().build();
@@ -62,12 +61,21 @@ public class FacultyController {
     }
 
     @GetMapping("/{faculty_id}/allStudens")
-    public ResponseEntity<Collection<Student>> findStudents(@PathVariable long faculty_id) {
-        if (facultyService.findFaculty(faculty_id) == null) {
+    public ResponseEntity<Collection<Student>> findStudents(@PathVariable long facultyId) {
+        if (facultyService.findFaculty(facultyId) == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(facultyService.findStudents(faculty_id));
+        return ResponseEntity.ok(facultyService.findStudents(facultyId));
     }
+    @GetMapping("/longestName")
+   public String getLongestFacultyName(){
+        return facultyService.getLongestFacultyName();
+    }
+    @GetMapping("/test")
+    public int test(){
+        return facultyService.test();
+    }
+
 
 
 }
