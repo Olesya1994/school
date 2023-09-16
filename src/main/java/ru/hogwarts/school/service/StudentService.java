@@ -1,4 +1,5 @@
 package ru.hogwarts.school.service;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,11 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
 import ru.hogwarts.school.repository.StudentRepository;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 public class StudentService {
     Logger logger = LoggerFactory.getLogger(StudentService.class);
@@ -21,6 +24,7 @@ public class StudentService {
     private StudentRepository studentRepository;
     @Autowired
     private AvatarRepository avatarRepository;
+    private int counter = 0;
 
     public Student addStudent(Student student) {
         logger.info("method addStudent was invoked");
@@ -101,9 +105,7 @@ public class StudentService {
 
     public void printAllStudents() {
         List<String> studentNames = studentRepository.findAll().stream().
-                map(Student::getName).
-                sorted().
-                toList();
+                map(Student::getName).toList();
         System.out.println(studentNames);
         System.out.println(studentNames.get(0));
         System.out.println(studentNames.get(1));
@@ -118,26 +120,32 @@ public class StudentService {
         thread1.start();
         thread2.start();
     }
+
     public void print6Student() {
         List<String> studentNames = studentRepository.findAll().stream().
                 map(Student::getName).
-                sorted().
                 toList();
-        System.out.println(studentNames);
-        print(studentNames.get(0));
-        print(studentNames.get(1));
+        logger.info(studentNames.toString());
+        print(studentNames);
+        print(studentNames);
         Thread thread1 = new Thread(() -> {
-            print(studentNames.get(2));
-            print(studentNames.get(3));
+            print(studentNames);
+            print(studentNames);
         });
         Thread thread2 = new Thread(() -> {
-            print(studentNames.get(4));
-            print(studentNames.get(5));
+            print(studentNames);
+            print(studentNames);
         });
         thread1.start();
         thread2.start();
     }
-    public synchronized void print(String name){
-        System.out.println(name);
+
+    public synchronized void print(List<String> studentNames) {
+        logger.info(studentNames.get(counter));
+        counter++;
+        if (counter >= 6) {
+            counter = 0;
+        }
     }
+
 }
