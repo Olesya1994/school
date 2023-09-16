@@ -37,7 +37,9 @@ public class FacultyService {
         if (!facultyRepository.existsById(faculty.getId())) {
             logger.info("Faculty with Id already exists");
             return null;
+
         }
+
         return facultyRepository.save(faculty);
     }
 

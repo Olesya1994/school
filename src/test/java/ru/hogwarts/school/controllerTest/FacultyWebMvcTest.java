@@ -3,29 +3,21 @@ package ru.hogwarts.school.controllerTest;
 import org.assertj.core.api.Assertions;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import org.springframework.http.MediaType;
-
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import ru.hogwarts.school.controller.AvatarController;
 import ru.hogwarts.school.controller.FacultyController;
 import ru.hogwarts.school.controller.StudentController;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
-
 import ru.hogwarts.school.service.FacultyService;
-
-
-import java.util.Collection;
 
 import java.util.List;
 
@@ -33,6 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest
 public class FacultyWebMvcTest {
     @Autowired
@@ -48,46 +41,11 @@ public class FacultyWebMvcTest {
     private StudentController facultyController;
     @MockBean
     private AvatarController avatarController;
+
     @Test
     public void contextLoads() throws Exception {
         Assertions.assertThat(facultyController).isNotNull();
         Assertions.assertThat(facultyService).isNotNull();
-    }
-
-    @BeforeEach
-    void setUp() throws JSONException {
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", "Jiny");
-        studentObject.put("id", 33);
-        studentObject.put("age", 19);
-
-        Student testStudent = new Student();
-        testStudent.setId(33l);
-        testStudent.setName("Jiny");
-        testStudent.setAge(19);
-
-        Faculty testFaculty = new Faculty();
-        testFaculty.setId(66);
-        testFaculty.setName("MTT");
-        testFaculty.setColor("Red");
-
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("name", "MTT");
-        facultyObject.put("id", 66l);
-        facultyObject.put("color", "Red");
-
-        testStudent.setFaculty(testFaculty);
-
-        List<Faculty> listForTest = List.of(testFaculty);
-        Collection<Faculty> collectionForTest = listForTest;
-        when(facultyService.addFaculty(any(Faculty.class))).thenReturn(testFaculty);
-
-//        when(studentService.deleteStudent(any(Long.class))).thenReturn(ResponseEntity.ok().build());
-//
-//        when(studentService.getFaculty(any(Long.class))).thenReturn(ResponseEntity.ok(testFaculty));
-//        when(studentService.getStudentCount()).thenReturn(1);
-//        when(studentService.getAverageAge()).thenReturn(19);
-//        when(studentService.getLastStudent()).thenReturn(listForTest);
     }
 
     @Test
@@ -181,7 +139,6 @@ public class FacultyWebMvcTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
     }
 
     @Test
@@ -197,14 +154,14 @@ public class FacultyWebMvcTest {
         facultyObject.put("color", "Red");
         List<Faculty> listForTest = List.of(testFaculty);
 
-        when(facultyService.findByColor(any(String.class))).thenReturn( listForTest);
+        when(facultyService.findByColor(any(String.class))).thenReturn(listForTest);
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty/byColor?color=Red")
                         .content(facultyObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-           }
+    }
 
     @Test
     public void findStudents() throws JSONException {
@@ -225,7 +182,6 @@ public class FacultyWebMvcTest {
         testStudent.setFaculty(testFaculty);
     }
 
-
     @Test
     public void getLongestFacultyNameTest() throws Exception {
         Faculty testFaculty = new Faculty();
@@ -245,5 +201,4 @@ public class FacultyWebMvcTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
 }
